@@ -16,6 +16,6 @@ lerobot-record \
   --dataset.num_episodes=${NUM_EPISODES} \
   --dataset.episode_time_s=30 \
   --dataset.reset_time_s=15 \
-  --dataset.fps=30 \
+  --dataset.fps=10 \
   --dataset.push_to_hub=true \
   --play_sounds=false
