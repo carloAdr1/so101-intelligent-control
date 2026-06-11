@@ -60,19 +60,7 @@ Cada episodio incluye imágenes RGB de 2 cámaras (front + side, 640×480), esta
 ---
 
 ## Pipeline del Sistema
-HuggingFace Dataset (303 demos)
-↓
-ACT Training — 50k pasos, ResNet18 + Transformer (Google Colab A100)
-↓
-3 políticas ACT (only_black · only_white · both_bw)
-↓
-Cámara lateral (index 2, 640×480) → OpenCV HSV → Detecta negro y/o blanco
-↓
-auto_select_model.py — Selección automática sin intervención humana
-↓
-lerobot-record — 2 cámaras + joint states
-↓
-SO-101 ejecuta: toma cable de terminal → deposita en caja de color
+<img width="5367" height="1376" alt="_Diagrama de flujo -  Diagrama de flujo Flujo dual ACT y detección de color (1)" src="https://github.com/user-attachments/assets/eec3f453-f79e-433a-9b90-08fd419664f8" />
 
 **Lógica del selector (OpenCV HSV):**
 - Negro detectado (V < 40, > 4000 px) y Blanco detectado (V > 200, S < 25, > 600 px) → `act_both_bw`
