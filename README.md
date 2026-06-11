@@ -1,124 +1,122 @@
 # SO-101 Intelligent Control — Cable Sorting with Imitation Learning
 
-**Intelligent Control Module · Tecnológico de Monterrey · Equipo 6**
+**Intelligent Control Module · Tecnológico de Monterrey · Team 6**
 
-El robot SO-101 aprende a tomar un cable de color de una terminal y depositarlo en su caja correspondiente, en presencia de cables distractores (negro/blanco). Un sistema de visión computacional basado en OpenCV HSV detecta automáticamente el ambiente y selecciona la política ACT correcta sin intervención humana.
+The SO-101 robot learns to pick a colored cable from a terminal and place it in the correct box, in the presence of distractor cables (black/white). A computer vision system based on OpenCV HSV automatically detects the scene and selects the correct ACT policy without human intervention.
 
-| Track | Tarea | Robot | Método |
+| Track | Task | Robot | Method |
 |---|---|---|---|
 | Imitation Learning — Behaviour Cloning | Option 2 — Laboratory Setup with Clip Wires | SO-101 Follower (6 DOF) | ACT — Action Chunking Transformer |
 
 ---
 
-## Resultados
+## Results
 
-| Modelo | Tasa de Éxito | Tiempo Promedio |
+| Model | Success Rate | Avg Time |
 |---|---|---|
 | act_only_black | 80% | 18.98 s |
 | act_only_white | 90% | 14.26 s |
 | act_both_bw | 90% | 7.9 s |
-| **Generalización (10 escenarios)** | **90%** | — |
-| **Accuracy selector automático** | **100%** | — |
+| **Generalization (10 scenarios)** | **90%** | — |
+| **Auto selector accuracy** | **100%** | — |
 
-Todos los episodios completados en < 27 segundos ✅
+All episodes completed in < 27 seconds ✅
 
 ---
 
-## Videos de Demostración
+## Demo Videos
 
-| Modelo | Descripción | Video |
+| Model | Description | Video |
 |---|---|---|
-| act_only_black | Distractor negro presente | [YouTube ↗](https://youtu.be/7gXFCimDjyQ) |
-| act_only_white | Distractor blanco presente | [YouTube ↗](https://youtu.be/EpvfbroREuE) |
-| act_both_bw | Ambos distractores presentes | [YouTube ↗](https://youtu.be/U0JogTCIOnQ) |
+| act_only_black | Black distractor present | [YouTube ↗](https://youtu.be/7gXFCimDjyQ) |
+| act_only_white | White distractor present | [YouTube ↗](https://youtu.be/EpvfbroREuE) |
+| act_both_bw | Both distractors present | [YouTube ↗](https://youtu.be/U0JogTCIOnQ) |
 
 ---
 
 ## Dataset — HuggingFace
 
-| Dataset | Episodios | Frames | FPS |
+| Dataset | Episodes | Frames | FPS |
 |---|---|---|---|
 | [AdrielP/cables_il_only_black](https://huggingface.co/datasets/AdrielP/cables_il_only_black) | 101 | 76.3k | 30 |
 | [AdrielP/cables_il_only_white](https://huggingface.co/datasets/AdrielP/cables_il_only_white) | 101 | 78.0k | 30 |
 | [AdrielP/cables_il_both_bw](https://huggingface.co/datasets/AdrielP/cables_il_both_bw) | 101 | 30.2k | 10 |
 | **TOTAL** | **303** | **184.5k** | — |
 
-Cada episodio incluye imágenes RGB de 2 cámaras (front + side, 640×480), estados articulares (6 joints) y acciones del operador.
+Each episode includes RGB images from 2 cameras (front + side, 640×480), joint states (6 DOF), and operator actions.
 
-> `both_bw` grabado a 10 FPS — misma duración de tarea, menor densidad de frames. El modelo aprende movimientos más directos.
+> `both_bw` recorded at 10 FPS — same task duration, lower frame density. The model learns more direct movements.
 
 ---
 
-## Modelos — HuggingFace
+## Models — HuggingFace
 
-| Modelo | Ambiente que detecta | Tarea ejecutada |
+| Model | Detected scene | Task executed |
 |---|---|---|
-| [AdrielP/act_only_black](https://huggingface.co/AdrielP/act_only_black) | Solo cable negro visible | Toma cable amarillo → caja amarilla |
-| [AdrielP/act_only_white](https://huggingface.co/AdrielP/act_only_white) | Solo cable blanco visible | Toma cable verde → caja verde |
-| [AdrielP/act_both_bw](https://huggingface.co/AdrielP/act_both_bw) | Negro Y blanco visibles | Toma cable rojo → caja roja |
+| [AdrielP/act_only_black](https://huggingface.co/AdrielP/act_only_black) | Only black cable visible | Picks yellow cable → yellow box |
+| [AdrielP/act_only_white](https://huggingface.co/AdrielP/act_only_white) | Only white cable visible | Picks green cable → green box |
+| [AdrielP/act_both_bw](https://huggingface.co/AdrielP/act_both_bw) | Black AND white visible | Picks red cable → red box |
 
 ---
 
-## Pipeline del Sistema
-<img width="5367" height="1376" alt="_Diagrama de flujo -  Diagrama de flujo Flujo dual ACT y detección de color (1)" src="https://github.com/user-attachments/assets/eec3f453-f79e-433a-9b90-08fd419664f8" />
+## System Pipeline
 
-**Lógica del selector (OpenCV HSV):**
-- Negro detectado (V < 40, > 4000 px) y Blanco detectado (V > 200, S < 25, > 600 px) → `act_both_bw`
-- Solo negro → `act_only_black`
-- Solo blanco → `act_only_white`
+![Pipeline](results/plots/_Diagrama%20de%20flujo%20-%20%20Diagrama%20de%20flujo%20Flujo%20dual%20ACT%20y%20detección%20de%20color%20(1).png)
+
+**Selector logic (OpenCV HSV):**
+- Black detected (V < 40, > 4000 px) AND White detected (V > 200, S < 25, > 600 px) → `act_both_bw`
+- Black only → `act_only_black`
+- White only → `act_only_white`
 
 ---
 
-## Arquitectura — ACT (Action Chunking Transformer)
+## Architecture — ACT (Action Chunking Transformer)
+
 πθ(aₜ | oₜ) — Behaviour Cloning
-Observación oₜ:
 
-Imagen front camera  640×480 → ResNet18 → features
-Imagen side camera   640×480 → ResNet18 → features
-Joint states (6 DOF)
+**Observation oₜ:**
+- Front camera image 640×480 → ResNet18 → features
+- Side camera image 640×480 → ResNet18 → features
+- Joint states (6 DOF)
 
-Arquitectura:
+**Architecture:**
+- Visual backbone: ResNet18 (ImageNet weights)
+- Encoder: 4 Transformer layers
+- Decoder: 1 Transformer layer
+- Attention heads: 8 · Model dim: 512
+- Chunk size: 100 actions per inference
+- VAE latent dim: 32 · KL weight: 10.0
 
-Backbone visual: ResNet18 (pesos ImageNet)
-Encoder: 4 capas Transformer
-Decoder: 1 capa Transformer
-Attention heads: 8 · Dim model: 512
-Chunk size: 100 acciones por inferencia
-VAE latent dim: 32 · KL weight: 10.0
+**Training:**
+- Steps: 50,000 per model
+- Optimizer: AdamW · lr 1e-5 · weight decay 1e-4
+- Training hardware: Google Colab GPU A100
+- Framework: LeRobot (HuggingFace)
 
-Entrenamiento:
-
-Steps: 50,000 por modelo
-Optimizer: AdamW · lr 1e-5 · weight decay 1e-4
-Hardware: Google Colab GPU A100
-Framework: LeRobot (HuggingFace)
-
-Inferencia:
-
-Hardware: CPU — WSL2 Ubuntu 22.04 (~10 Hz)
-
+**Inference:**
+- Hardware: CPU — WSL2 Ubuntu 22.04 (~10 Hz)
 
 ---
 
-## Gráficas de Resultados
+## Result Plots
 
 ### Dataset
 ![Dataset](results/plots/graficas_dataset.png)
 
-### Evaluación por Modelo
-![Evaluación](results/plots/graficas_eval.png)
+### Model Evaluation
+![Evaluation](results/plots/graficas_eval.png)
 
-### Generalización y Selección Automática
-![Generalización](results/plots/graficas_generalizacion.png)
+### Generalization and Auto Selection
+![Generalization](results/plots/graficas_generalizacion.png)
 
 ---
 
-## Instalación
+## Installation
 
-### Requisitos
-- Ubuntu 22.04 (o WSL2)
+### Requirements
+- Ubuntu 22.04 (or WSL2)
 - Python 3.10+
-- Robot SO-101 conectado por USB
+- SO-101 robot connected via USB
 
 ```bash
 git clone https://github.com/carloAdr1/so101-intelligent-control.git
@@ -128,23 +126,23 @@ source venv/bin/activate
 pip install lerobot
 ```
 
-### Configuración de hardware
+### Hardware configuration
 /dev/ttyACM0  →  SO101 follower (robot)
 /dev/ttyACM1  →  SO101 leader (teleop)
-/dev/video0   →  cámara frontal
-/dev/video2   →  cámara lateral
+/dev/video0   →  front camera
+/dev/video2   →  side camera
 
 ---
 
-## Uso
+## Usage
 
-### Selección automática de modelo (sistema completo)
+### Automatic model selection (full system)
 ```bash
 python scripts/auto_select_model.py
 ```
-Captura un frame de la cámara lateral, detecta el ambiente mediante HSV y lanza automáticamente el modelo correcto.
+Captures a frame from the side camera, detects the scene via HSV, and automatically launches the correct model.
 
-### Ejecutar un modelo manualmente
+### Run a model manually
 ```bash
 # only_black
 lerobot-record \
@@ -158,9 +156,9 @@ lerobot-record \
   --dataset.fps=15 \
   --play_sounds=false
 ```
-Sustituir `act_only_black` / `eval_only_black` por `act_only_white`, `act_both_bw` según el ambiente.
+Replace `act_only_black` / `eval_only_black` with `act_only_white` or `act_both_bw` as needed.
 
-### Grabar nuevas demostraciones
+### Record new demonstrations
 ```bash
 bash scripts/record_il.sh both_bw 100
 bash scripts/record_il.sh only_black 100
@@ -181,7 +179,7 @@ docker run --rm -it \
   so101-intelligent-control
 ```
 
-Para acceso al hardware (cámaras, robot):
+With hardware access (cameras, robot):
 ```bash
 docker run --rm -it \
   --privileged \
@@ -195,28 +193,27 @@ docker run --rm -it \
 
 ---
 
-## Protocolo de Evaluación
+## Evaluation Protocol
 
-**Evaluación por modelo (30 episodios total):** 10 episodios × 3 modelos, posición fija del cable, solo cambia el distractor presente. Mide: éxito/fallo de la tarea.
+**Per-model evaluation (30 episodes total):** 10 episodes × 3 models, fixed cable position, only the distractor present changes. Measures: task success/failure.
 
-**Evaluación de generalización (10 escenarios):** Combinación aleatoria de distractores. El sistema selecciona automáticamente el modelo. Mide: (1) accuracy del selector, (2) task success rate.
+**Generalization evaluation (10 scenarios):** Random distractor combinations. The system selects the model automatically. Measures: (1) selector accuracy, (2) task success rate.
 
-Ver métricas detalladas en [`results/metrics/`](results/metrics/).
-
----
-
-## Limitaciones
-
-- Inferencia en CPU (~10 Hz vs 30 Hz ideal) — el robot se mueve más lento que durante el entrenamiento
-- Posición fija del cable durante entrenamiento — poca variabilidad de pose
-- Detector HSV sensible a cambios de iluminación
-- No generaliza a cables en posiciones no vistas durante entrenamiento
-
-**Trabajo futuro:** mayor variabilidad de posición en el dataset, Diffusion Policy como alternativa a ACT, migrar inferencia a GPU, más condiciones de iluminación.
+See detailed metrics in [`results/metrics/`](results/metrics/).
 
 ---
 
-## Estructura del Repositorio
+## Limitations
+
+- CPU inference (~10 Hz vs 30 Hz ideal) — robot moves slower than during training
+- Fixed cable position during training — low pose variability
+- HSV detector sensitive to lighting changes
+- Does not generalize to cable positions not seen during training
+
+**Future work:** greater position variability in dataset, Diffusion Policy as ACT alternative, GPU inference, more lighting conditions.
+
+---
+## Repository Structure
 
 ```
 so101-intelligent-control/
@@ -244,10 +241,10 @@ so101-intelligent-control/
 
 ---
 
-## Presentación
+## Presentation
 
-Presentación final del proyecto (Equipo 6): [Ver presentación (PDF)](results/presentation/final_presentation.pdf)
+Final project presentation (Team 6): [View presentation (PDF)](results/presentation/final_presentation.pdf)
 
 ---
 
-## Equipo 6 · Intelligent Control Module · Tecnológico de Monterrey
+**Team 6 · Intelligent Control Module · Tecnológico de Monterrey**
