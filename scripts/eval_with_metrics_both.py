@@ -1,3 +1,13 @@
+"""
+Evaluation script for act_both_bw model.
+
+Runs 10 episodes of the both_bw ACT policy on the SO-101 robot,
+records task success and execution time per episode, and saves
+results to Excel. Supports checkpoint resume on interruption.
+
+Usage:
+    python scripts/eval_with_metrics_both.py
+"""
 import subprocess
 import time
 import re
