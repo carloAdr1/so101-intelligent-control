@@ -217,9 +217,11 @@ Ver métricas detalladas en [`results/metrics/`](results/metrics/).
 ---
 
 ## Estructura del Repositorio
+
+```
 so101-intelligent-control/
 ├── calibration/          # Archivos de calibración SO101
-├── docs/                 # Documentación técnica
+├── docs/
 │   ├── SETUP_WSL_USB.md
 │   ├── CAMERA_TESTS.md
 │   ├── TELEOPERATION.md
@@ -228,16 +230,17 @@ so101-intelligent-control/
 ├── models/               # Referencias a modelos HuggingFace
 ├── results/
 │   ├── metrics/          # Archivos de métricas (CSV/JSON)
-│   ├── plots/            # Gráficas generadas
+│   ├── plots/
 │   │   ├── graficas_dataset.png
 │   │   ├── graficas_eval.png
 │   │   └── graficas_generalizacion.png
 │   └── videos/
-│       └── demo_links.md # Links a videos en YouTube
+│       └── demo_links.md
 ├── scripts/              # Scripts de grabación y utilidades
 ├── Dockerfile
 ├── requirements.txt
 └── README.md
+```
 
 ---
 
