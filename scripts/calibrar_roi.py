@@ -1,3 +1,13 @@
+"""
+ROI calibration script for HSV-based cable color detection.
+
+Reads pre-captured reference images from /tmp/ and computes pixel
+counts for black (V<40) and white (V>200, S<25) masks within the
+defined region of interest. Used to calibrate detection thresholds.
+
+Usage:
+    python scripts/calibrar_roi.py
+"""
 import cv2
 import numpy as np
 
