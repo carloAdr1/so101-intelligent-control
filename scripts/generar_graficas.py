@@ -1,6 +1,9 @@
 """
 Genera todas las graficas de evaluacion del proyecto SO-101.
 Guarda los resultados en results/plots/
+
+Usage:
+    python scripts/generar_graficas.py
 """
 import matplotlib
 matplotlib.use("Agg")
