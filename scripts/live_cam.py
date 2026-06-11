@@ -1,3 +1,12 @@
+"""
+Live camera capture and flip test for SO-101 setup verification.
+
+Captures a single frame from /dev/video0, applies vertical flip,
+and saves to fixed_cam.jpg for visual verification.
+
+Usage:
+    python scripts/live_cam.py
+"""
 import cv2
 
 cap = cv2.VideoCapture("/dev/video0", cv2.CAP_V4L2)
