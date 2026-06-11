@@ -1,3 +1,13 @@
+"""
+Evaluation script for act_only_white model.
+
+Runs 10 episodes of the only_white ACT policy on the SO-101 robot,
+records task success and execution time per episode, and saves
+results to Excel. Supports checkpoint resume on interruption.
+
+Usage:
+    python scripts/eval_with_metrics_onlywhite.py
+"""
 import subprocess
 import time
 import re
