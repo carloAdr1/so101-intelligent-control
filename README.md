@@ -246,7 +246,7 @@ so101-intelligent-control/
 
 ## Presentación
 
-Presentación final del proyecto (Equipo 6): [Google Drive ↗](https://drive.google.com/drive/folders/1DEdYMGSX__oJ1wk36yFZZiM75tav75kf?usp=drive_link)
+Presentación final del proyecto (Equipo 6): [Ver presentación (PDF)](results/presentation/final_presentation.pdf)
 
 ---
 
