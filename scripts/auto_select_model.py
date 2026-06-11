@@ -1,3 +1,13 @@
+"""
+Automatic scene detection and model selection for SO-101 cable sorting.
+
+Captures a frame from the lateral camera, detects black/white cables via
+OpenCV HSV thresholding, and automatically launches the correct ACT policy
+using lerobot-record. Saves results to Excel with checkpoint support.
+
+Usage:
+    python scripts/auto_select_model.py
+"""
 import cv2
 import numpy as np
 import subprocess
