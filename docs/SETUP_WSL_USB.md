@@ -1,25 +1,26 @@
 # Setup WSL + USBIPD
 
-## 1. PowerShell como administrador
+## 1. PowerShell (as administrator)
 
-Ver dispositivos:
+List devices:
 ```powershell
 usbipd list
 ```
 
-Compartir y conectar camaras/brazos:
+Share and attach cameras/arms:
 ```powershell
 usbipd bind --busid <BUSID>
 usbipd attach --wsl --busid <BUSID>
 ```
 
-Ejemplo para este proyecto:
+Example for this project:
 ```powershell
 usbipd attach --wsl --busid 1-1
 usbipd attach --wsl --busid 2-2
 ```
 
-## 2. En Ubuntu/WSL
+## 2. In Ubuntu/WSL
+
 ```bash
 cd ~/so101_project
 source venv/bin/activate
