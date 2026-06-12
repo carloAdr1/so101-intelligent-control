@@ -1,10 +1,10 @@
-# Modelos entrenados
+# Trained Models
 
-Los modelos NO se incluyen en este repositorio por su tamaño (51.7MB cada uno).
-Descargarlos desde HuggingFace:
+Models are NOT included in this repository due to their size (~207 MB each).
+Download them from HuggingFace:
 
-| Modelo | HuggingFace | Descripcion |
-|--------|-------------|-------------|
-| act_only_black | https://huggingface.co/AdrielP/act_only_black | Entrenado solo con cable negro |
-| act_only_white | https://huggingface.co/AdrielP/act_only_white | Entrenado solo con cable blanco |
-| act_both_bw    | https://huggingface.co/AdrielP/act_both_bw    | Entrenado con ambos cables |
+| Model | HuggingFace | Description |
+|---|---|---|
+| act_only_black | https://huggingface.co/AdrielP/act_only_black | Trained with black cable only |
+| act_only_white | https://huggingface.co/AdrielP/act_only_white | Trained with white cable only |
+| act_both_bw | https://huggingface.co/AdrielP/act_both_bw | Trained with both cables |
