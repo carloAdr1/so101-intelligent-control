@@ -1,16 +1,19 @@
 # Teleoperation Test
 
-Puertos actuales:
-- /dev/ttyACM0 = follower / robot
-- /dev/ttyACM1 = leader / control
+## Port configuration
 
-Dar permisos:
+- `/dev/ttyACM0` = follower / robot
+- `/dev/ttyACM1` = leader / controller
+
+## Set permissions
+
 ```bash
 sudo chmod 666 /dev/ttyACM0
 sudo chmod 666 /dev/ttyACM1
 ```
 
-Probar teleoperacion:
+## Run teleoperation
+
 ```bash
 lerobot-teleoperate \
   --fps=25 \
