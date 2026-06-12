@@ -1,15 +1,17 @@
 # Camera Tests
 
-Este proyecto usa dos camaras:
-- /dev/video0 = camara frontal
-- /dev/video2 = camara lateral
+This project uses two cameras:
+- `/dev/video0` = front camera
+- `/dev/video2` = side camera
 
-Ver camaras disponibles:
+## List available cameras
+
 ```bash
 v4l2-ctl --list-devices
 ```
 
-Probar ambas simultaneamente:
+## Test both cameras simultaneously
+
 ```bash
 python -c "
 import cv2
